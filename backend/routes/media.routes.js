@@ -6,14 +6,18 @@ import express from "express";
 import Media from "../models/Media.js";
 import { protect } from "../middleware/auth.middleware.js";
 import { extractDescriptors } from "../models/faceservice.js";
-import { processMediaTags, syncManualTags } from "../services/tagging.service.js";
+import {
+  processMediaTags,
+  syncManualTags,
+} from "../services/tagging.service.js";
 
 const router = express.Router();
 
 cloudinary.config({
   cloud_name: process.env.CLOUDINARY_CLOUD_NAME || "dt5tpx4im",
   api_key: process.env.CLOUDINARY_API_KEY || "216131566817789",
-  api_secret: process.env.CLOUDINARY_API_SECRET || "mPhKd5F4c1dZinNB-vEwbRfRAu8",
+  api_secret:
+    process.env.CLOUDINARY_API_SECRET || "mPhKd5F4c1dZinNB-vEwbRfRAu8",
 });
 
 const storage = new CloudinaryStorage({
@@ -41,7 +45,7 @@ async function triggerFaceProcessing(mediaId, url) {
     await Media.findByIdAndUpdate(mediaId, {
       faceDescriptors: [],
       facesProcessed: true,
-    }).catch(() => { });
+    }).catch(() => {});
     console.error(
       `❌ Face processing failed for media ${mediaId}:`,
       err.message
@@ -51,7 +55,10 @@ async function triggerFaceProcessing(mediaId, url) {
 
 // Helper: is user admin or club member?
 const canSeePrivate = (user) =>
-  user && (user.role === "Admin" || user.role === "ClubMember" || user.role === "Photographer");
+  user &&
+  (user.role === "Admin" ||
+    user.role === "ClubMember" ||
+    user.role === "Photographer");
 
 // ─── POST /api/media/upload ─────────────────────────────────────────────────
 router.post("/upload", protect, upload.single("file"), async (req, res) => {
@@ -71,7 +78,11 @@ router.post("/upload", protect, upload.single("file"), async (req, res) => {
 
     // Permission check for private uploads
     if (requestedVisibility === "private" && !canSeePrivate(req.user)) {
-      return res.status(403).json({ message: "Only Club Members and Admins can upload private media." });
+      return res
+        .status(403)
+        .json({
+          message: "Only Club Members and Admins can upload private media.",
+        });
     }
 
     // Enforce valid values
@@ -173,6 +184,103 @@ router.get("/event/:eventId", protect, async (req, res) => {
       .populate("comments.user", "name");
     res.json(media);
   } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+});
+
+// ─── DELETE /api/media/:id — delete media (owner or admin only) ─────────────
+router.delete("/:id", protect, async (req, res) => {
+  try {
+    // Validate media ID format
+    if (!req.params.id.match(/^[0-9a-fA-F]{24}$/)) {
+      return res.status(400).json({ message: "Invalid media ID format" });
+    }
+
+    const media = await Media.findById(req.params.id);
+    if (!media) {
+      return res.status(404).json({ message: "Media not found" });
+    }
+
+    // Authorization check - only uploader or Admin can delete
+    if (
+      media.uploadedBy.toString() !== req.user._id.toString() &&
+      req.user.role !== "Admin"
+    ) {
+      return res
+        .status(403)
+        .json({ message: "Not authorized to delete this media" });
+    }
+
+    // Delete from Cloudinary first (non-blocking)
+    if (media.publicId) {
+      try {
+        const cloudResult = await cloudinary.uploader.destroy(media.publicId);
+        console.log(
+          `✅ Cloudinary delete for ${media.publicId}:`,
+          cloudResult.result
+        );
+      } catch (cloudErr) {
+        console.warn(
+          `⚠️ Cloudinary delete failed for ${media.publicId}:`,
+          cloudErr.message
+        );
+        // Continue anyway to delete from DB
+      }
+    }
+
+    // Delete from MongoDB
+    await Media.findByIdAndDelete(req.params.id);
+
+    console.log(`✅ Media ${req.params.id} deleted successfully`);
+    res.json({ message: "Media deleted successfully" });
+  } catch (err) {
+    console.error("❌ Delete error:", err.message);
+    res.status(500).json({ message: err.message, error: err.toString() });
+  }
+});
+
+// ─── PATCH /api/media/:id — visibility update (owner or admin only) ──────────
+router.patch("/:id", protect, async (req, res) => {
+  try {
+    // Validate media ID format
+    if (!req.params.id.match(/^[0-9a-fA-F]{24}$/)) {
+      return res.status(400).json({ message: "Invalid media ID format" });
+    }
+
+    const media = await Media.findById(req.params.id);
+    if (!media) {
+      return res.status(404).json({ message: "Media not found" });
+    }
+
+    // Authorization check
+    if (
+      media.uploadedBy.toString() !== req.user._id.toString() &&
+      req.user.role !== "Admin"
+    ) {
+      return res
+        .status(403)
+        .json({ message: "Not authorized to update this media" });
+    }
+
+    const { visibility } = req.body;
+    if (visibility && ["public", "private"].includes(visibility)) {
+      if (visibility === "private" && !canSeePrivate(req.user)) {
+        return res
+          .status(403)
+          .json({
+            message: "Only Club Members and Admins can set media private.",
+          });
+      }
+      media.visibility = visibility;
+    }
+
+    await media.save();
+    console.log(
+      `✅ Media ${req.params.id} visibility updated to ${visibility}`
+    );
+    res.json(media);
+  } catch (err) {
+    console.error("❌ Patch error:", err.message);
     res.status(500).json({ message: err.message });
   }
 });
