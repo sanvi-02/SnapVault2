@@ -28,7 +28,11 @@ const server = http.createServer(app);
 // Socket.io
 const io = new Server(server, {
   cors: {
-    origin: ["https://snap-vault2-mvuz.vercel.app", "http://localhost:5173"],
+    origin: [
+      "https://snap-vault2-mvuz.vercel.app",
+      "https://snap-vault2-mvuz-git-main-sanvi-jains-projects.vercel.app",
+      "http://localhost:5173",
+    ],
     methods: ["GET", "POST"],
   },
 });
@@ -53,7 +57,11 @@ io.on("connection", (socket) => {
 // Middleware
 app.use(
   cors({
-    origin: ["https://snap-vault2-mvuz.vercel.app", "http://localhost:5173"],
+    origin: [
+      "https://snap-vault2-mvuz.vercel.app",
+      "https://snap-vault2-mvuz-git-main-sanvi-jains-projects.vercel.app",
+      "http://localhost:5173",
+    ],
     credentials: true,
   })
 );

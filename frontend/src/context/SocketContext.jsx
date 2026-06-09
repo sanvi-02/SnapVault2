@@ -15,12 +15,9 @@ export const SocketProvider = ({ children }) => {
       return;
     }
 
-    const socketInstance = io(
-      import.meta.env.VITE_SOCKET_URL || "http://localhost:8000",
-      {
-        transports: ["websocket"],
-      }
-    );
+   const socketInstance = io(import.meta.env.VITE_SOCKET_URL, {
+     transports: ["polling", "websocket"],
+   });
 
     setSocket(socketInstance);
 
