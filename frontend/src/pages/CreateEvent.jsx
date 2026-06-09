@@ -28,11 +28,11 @@ const CreateEvent = () => {
 
   const inputStyle = {
     width: "100%",
-    background: "#f8f7ff",
-    border: "1.5px solid #e5e7eb",
+    background: "#1a1a2e",
+    border: "1.5px solid #2a2a3e",
     borderRadius: "12px",
     padding: "13px 16px",
-    color: "#1e1b4b",
+    color: "#e0d9ff",
     fontSize: "15px",
     outline: "none",
     transition: "all 0.2s",
@@ -55,7 +55,7 @@ const CreateEvent = () => {
   };
 
   const handleBlur = (e) => {
-    e.target.style.borderColor = "#e5e7eb";
+    e.target.style.borderColor = "#2a2a3e";
     e.target.style.boxShadow = "none";
   };
 
@@ -63,8 +63,7 @@ const CreateEvent = () => {
     <div
       style={{
         minHeight: "100vh",
-        background:
-          "linear-gradient(160deg, #f0f4ff 0%, #faf5ff 50%, #fff0f6 100%)",
+        background: "#0a0a0f",
         fontFamily: "Georgia, serif",
       }}>
       <Navbar />
@@ -77,7 +76,7 @@ const CreateEvent = () => {
             style={{
               fontSize: "36px",
               fontWeight: "700",
-              color: "#1e1b4b",
+              color: "#f0eeff",
               marginBottom: "8px",
             }}>
             Create Event
@@ -89,11 +88,11 @@ const CreateEvent = () => {
 
         <div
           style={{
-            background: "#ffffff",
+            background: "#13131f",
             borderRadius: "24px",
             padding: "40px",
             boxShadow: "0 8px 40px rgba(167,139,250,0.1)",
-            border: "1px solid rgba(167,139,250,0.15)",
+            border: "1px solid #2a2a3e",
             position: "relative",
           }}>
           <div
@@ -111,7 +110,7 @@ const CreateEvent = () => {
           {error && (
             <div
               style={{
-                background: "#fff5f5",
+                background: "#1f1010",
                 border: "1px solid #fecaca",
                 borderRadius: "10px",
                 padding: "12px 16px",
@@ -167,7 +166,7 @@ const CreateEvent = () => {
                 value={form.date}
                 onChange={(e) => setForm({ ...form, date: e.target.value })}
                 required
-                style={{ ...inputStyle, colorScheme: "light" }}
+                style={{ ...inputStyle, colorScheme: "dark" }}
                 onFocus={handleFocus}
                 onBlur={handleBlur}
               />
@@ -181,7 +180,7 @@ const CreateEvent = () => {
                 style={{
                   ...inputStyle,
                   cursor: "pointer",
-                  colorScheme: "light",
+                  colorScheme: "dark",
                 }}
                 onFocus={handleFocus}
                 onBlur={handleBlur}>
@@ -199,7 +198,7 @@ const CreateEvent = () => {
                 style={{
                   flex: 1,
                   background: "transparent",
-                  border: "1.5px solid #e5e7eb",
+                  border: "1.5px solid #2a2a3e",
                   borderRadius: "12px",
                   padding: "14px",
                   fontSize: "15px",
@@ -212,7 +211,7 @@ const CreateEvent = () => {
                   e.target.style.color = "#a78bfa";
                 }}
                 onMouseLeave={(e) => {
-                  e.target.style.borderColor = "#e5e7eb";
+                  e.target.style.borderColor = "#2a2a3e";
                   e.target.style.color = "#6b7280";
                 }}>
                 Cancel

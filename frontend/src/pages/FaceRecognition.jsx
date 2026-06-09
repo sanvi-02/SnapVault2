@@ -41,7 +41,7 @@ export default function FaceRecognition() {
   const fetchStatus = async () => {
     setStatusLoading(true);
     try {
-      const res = await api.get("/api/face/status");
+      const res = await api.get("/face/status");
       setStatus(res.data);
       setImgTimestamp(Date.now());
     } catch {
@@ -77,7 +77,7 @@ export default function FaceRecognition() {
       const formData = new FormData();
       formData.append("selfie", selectedFile);
 
-      await api.post("/api/face/register", formData, {
+      await api.post("/face/register", formData, {
         headers: { "Content-Type": "multipart/form-data" },
       });
 
@@ -105,7 +105,7 @@ export default function FaceRecognition() {
     setSearched(false);
     setMessage(null);
     try {
-      const res = await api.get(`/api/face/myphotos?threshold=${threshold}`);
+      const res = await api.get(`/face/myphotos?threshold=${threshold}`);
       setPhotos(res.data.photos || []);
       setSearched(true);
 
@@ -133,7 +133,7 @@ export default function FaceRecognition() {
   const handleDeleteFace = async () => {
     if (!window.confirm("Remove your face registration? You won't be able to find your photos.")) return;
     try {
-      await api.delete("/api/face/register");
+      await api.delete("/face/register");
       setStatus({ faceIndexed: false, selfieUrl: null });
       setPhotos([]);
       setSearched(false);

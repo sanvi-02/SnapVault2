@@ -64,25 +64,24 @@ const AdminPanel = () => {
   };
 
   const roleColors = {
-    Admin: { bg: "#fef3c7", color: "#d97706", border: "#fde68a" },
-    Photographer: { bg: "#ede9fe", color: "#7c3aed", border: "#ddd6fe" },
-    ClubMember: { bg: "#d1fae5", color: "#059669", border: "#a7f3d0" },
-    Viewer: { bg: "#f3f4f6", color: "#6b7280", border: "#e5e7eb" },
+    Admin: { bg: "#1f1a0e", color: "#fbbf24", border: "#854d0e" },
+    Photographer: { bg: "#1a1333", color: "#a78bfa", border: "#3b2d6e" },
+    ClubMember: { bg: "#0f1f14", color: "#4ade80", border: "#166534" },
+    Viewer: { bg: "#1a1a2e", color: "#9ca3af", border: "#2a2a3e" },
   };
 
   const categoryColors = {
-    Sports: { bg: "#eff6ff", color: "#3b82f6" },
-    Cultural: { bg: "#fdf4ff", color: "#a855f7" },
-    Technical: { bg: "#f0fdf4", color: "#22c55e" },
-    Other: { bg: "#fff7ed", color: "#f97316" },
+    Sports: { bg: "#0f1829", color: "#60a5fa" },
+    Cultural: { bg: "#1e1228", color: "#c084fc" },
+    Technical: { bg: "#0f1f14", color: "#4ade80" },
+    Other: { bg: "#1f1308", color: "#fb923c" },
   };
 
   return (
     <div
       style={{
         minHeight: "100vh",
-        background:
-          "linear-gradient(160deg, #f0f4ff 0%, #faf5ff 50%, #fff0f6 100%)",
+        background: "#0a0a0f",
         fontFamily: "Georgia, serif",
       }}>
       <Navbar />
@@ -95,12 +94,12 @@ const AdminPanel = () => {
             style={{
               fontSize: "36px",
               fontWeight: "700",
-              color: "#1e1b4b",
+              color: "#f0eeff",
               marginBottom: "8px",
             }}>
             Admin Panel
           </h1>
-          <p style={{ color: "#9ca3af", fontSize: "15px" }}>
+          <p style={{ color: "#6b7280", fontSize: "15px" }}>
             Manage users and events
           </p>
         </div>
@@ -142,11 +141,10 @@ const AdminPanel = () => {
             <div
               key={i}
               style={{
-                background: "#fff",
+                background: "#13131f",
                 borderRadius: "16px",
                 padding: "24px",
-                boxShadow: "0 4px 16px rgba(167,139,250,0.08)",
-                border: "1px solid rgba(167,139,250,0.12)",
+                border: "1px solid #2a2a3e",
               }}>
               <div style={{ fontSize: "28px", marginBottom: "8px" }}>
                 {stat.icon}
@@ -162,7 +160,7 @@ const AdminPanel = () => {
               <div
                 style={{
                   fontSize: "13px",
-                  color: "#9ca3af",
+                  color: "#6b7280",
                   marginTop: "4px",
                 }}>
                 {stat.label}
@@ -187,12 +185,13 @@ const AdminPanel = () => {
                 background:
                   activeTab === tab
                     ? "linear-gradient(135deg, #a78bfa, #f9a8d4)"
-                    : "#fff",
+                    : "#13131f",
                 color: activeTab === tab ? "#fff" : "#6b7280",
                 boxShadow:
                   activeTab === tab
                     ? "0 4px 12px rgba(167,139,250,0.35)"
-                    : "0 2px 8px rgba(0,0,0,0.06)",
+                    : "none",
+                border: activeTab === tab ? "none" : "1px solid #2a2a3e",
                 transition: "all 0.2s",
                 textTransform: "capitalize",
               }}>
@@ -204,10 +203,9 @@ const AdminPanel = () => {
         {/* Content */}
         <div
           style={{
-            background: "#fff",
+            background: "#13131f",
             borderRadius: "20px",
-            border: "1px solid rgba(167,139,250,0.15)",
-            boxShadow: "0 4px 20px rgba(167,139,250,0.08)",
+            border: "1px solid #2a2a3e",
             overflow: "hidden",
           }}>
           {loading ? (
@@ -225,8 +223,8 @@ const AdminPanel = () => {
               <thead>
                 <tr
                   style={{
-                    background: "#f8f7ff",
-                    borderBottom: "1px solid #f3f4f6",
+                    background: "#1a1a2e",
+                    borderBottom: "1px solid #2a2a3e",
                   }}>
                   {["User", "Email", "Role", "Joined", "Actions"].map((h) => (
                     <th
@@ -236,7 +234,7 @@ const AdminPanel = () => {
                         textAlign: "left",
                         fontSize: "12px",
                         fontWeight: "600",
-                        color: "#9ca3af",
+                        color: "#6b7280",
                         letterSpacing: "0.05em",
                         textTransform: "uppercase",
                       }}>
@@ -253,11 +251,11 @@ const AdminPanel = () => {
                       key={u._id}
                       style={{
                         borderBottom:
-                          i < users.length - 1 ? "1px solid #f3f4f6" : "none",
+                          i < users.length - 1 ? "1px solid #1e1e2e" : "none",
                         transition: "background 0.15s",
                       }}
                       onMouseEnter={(e) =>
-                        (e.currentTarget.style.background = "#faf9ff")
+                        (e.currentTarget.style.background = "#1a1a2e")
                       }
                       onMouseLeave={(e) =>
                         (e.currentTarget.style.background = "transparent")
@@ -289,7 +287,7 @@ const AdminPanel = () => {
                           <span
                             style={{
                               fontWeight: "600",
-                              color: "#1e1b4b",
+                              color: "#e0d9ff",
                               fontSize: "14px",
                             }}>
                             {u.name}
@@ -336,7 +334,7 @@ const AdminPanel = () => {
                       <td
                         style={{
                           padding: "16px 20px",
-                          color: "#9ca3af",
+                          color: "#4b5563",
                           fontSize: "13px",
                         }}>
                         {new Date(u.createdAt).toLocaleDateString("en-IN", {
@@ -352,9 +350,9 @@ const AdminPanel = () => {
                           <button
                             onClick={() => deleteUser(u._id)}
                             style={{
-                              background: "#fff5f5",
+                              background: "#1f1010",
                               color: "#ef4444",
-                              border: "1px solid #fecaca",
+                              border: "1px solid #7f1d1d",
                               borderRadius: "8px",
                               padding: "6px 14px",
                               fontSize: "13px",
@@ -366,7 +364,7 @@ const AdminPanel = () => {
                               e.target.style.color = "#fff";
                             }}
                             onMouseLeave={(e) => {
-                              e.target.style.background = "#fff5f5";
+                              e.target.style.background = "#1f1010";
                               e.target.style.color = "#ef4444";
                             }}>
                             Delete
@@ -384,8 +382,8 @@ const AdminPanel = () => {
               <thead>
                 <tr
                   style={{
-                    background: "#f8f7ff",
-                    borderBottom: "1px solid #f3f4f6",
+                    background: "#1a1a2e",
+                    borderBottom: "1px solid #2a2a3e",
                   }}>
                   {["Event", "Category", "Date", "Created By", "Actions"].map(
                     (h) => (
@@ -396,7 +394,7 @@ const AdminPanel = () => {
                           textAlign: "left",
                           fontSize: "12px",
                           fontWeight: "600",
-                          color: "#9ca3af",
+                          color: "#6b7280",
                           letterSpacing: "0.05em",
                           textTransform: "uppercase",
                         }}>
@@ -415,11 +413,11 @@ const AdminPanel = () => {
                       key={ev._id}
                       style={{
                         borderBottom:
-                          i < events.length - 1 ? "1px solid #f3f4f6" : "none",
+                          i < events.length - 1 ? "1px solid #1e1e2e" : "none",
                         transition: "background 0.15s",
                       }}
                       onMouseEnter={(e) =>
-                        (e.currentTarget.style.background = "#faf9ff")
+                        (e.currentTarget.style.background = "#1a1a2e")
                       }
                       onMouseLeave={(e) =>
                         (e.currentTarget.style.background = "transparent")
@@ -428,7 +426,7 @@ const AdminPanel = () => {
                         style={{
                           padding: "16px 20px",
                           fontWeight: "600",
-                          color: "#1e1b4b",
+                          color: "#e0d9ff",
                           fontSize: "14px",
                         }}>
                         {ev.name}
@@ -449,7 +447,7 @@ const AdminPanel = () => {
                       <td
                         style={{
                           padding: "16px 20px",
-                          color: "#9ca3af",
+                          color: "#4b5563",
                           fontSize: "13px",
                         }}>
                         {new Date(ev.date).toLocaleDateString("en-IN", {
@@ -475,9 +473,9 @@ const AdminPanel = () => {
                         <button
                           onClick={() => navigate(`/events/${ev._id}`)}
                           style={{
-                            background: "#f0f4ff",
+                            background: "#1a1333",
                             color: "#a78bfa",
-                            border: "1px solid #ddd6fe",
+                            border: "1px solid #3b2d6e",
                             borderRadius: "8px",
                             padding: "6px 14px",
                             fontSize: "13px",
@@ -489,7 +487,7 @@ const AdminPanel = () => {
                             e.target.style.color = "#fff";
                           }}
                           onMouseLeave={(e) => {
-                            e.target.style.background = "#f0f4ff";
+                            e.target.style.background = "#1a1333";
                             e.target.style.color = "#a78bfa";
                           }}>
                           View
@@ -497,9 +495,9 @@ const AdminPanel = () => {
                         <button
                           onClick={() => deleteEvent(ev._id)}
                           style={{
-                            background: "#fff5f5",
+                            background: "#1f1010",
                             color: "#ef4444",
-                            border: "1px solid #fecaca",
+                            border: "1px solid #7f1d1d",
                             borderRadius: "8px",
                             padding: "6px 14px",
                             fontSize: "13px",
@@ -511,7 +509,7 @@ const AdminPanel = () => {
                             e.target.style.color = "#fff";
                           }}
                           onMouseLeave={(e) => {
-                            e.target.style.background = "#fff5f5";
+                            e.target.style.background = "#1f1010";
                             e.target.style.color = "#ef4444";
                           }}>
                           Delete

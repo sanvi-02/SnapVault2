@@ -58,6 +58,15 @@ const NotificationBell = () => {
     }
   };
 
+  const handleClear = async () => {
+    try {
+      await API.delete("/social/notifications/clear-all");
+      setNotifications([]);
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
   const typeIcon = (type) => (type === "like" ? "❤️" : "💬");
 
   return (
@@ -146,10 +155,22 @@ const NotificationBell = () => {
               }}>
               Notifications
             </span>
-            {unread === 0 && (
-              <span style={{ fontSize: "11px", color: "#a78bfa" }}>
-                All caught up ✓
-              </span>
+            {notifications.length > 0 && (
+              <button
+                onClick={handleClear}
+                style={{
+                  background: "none",
+                  border: "none",
+                  color: "#a78bfa",
+                  fontSize: "11px",
+                  fontWeight: "600",
+                  cursor: "pointer",
+                  transition: "all 0.2s",
+                  padding: "4px 8px",
+                  borderRadius: "4px",
+                }}>
+                🗑️ Clear
+              </button>
             )}
           </div>
 
@@ -184,9 +205,9 @@ const NotificationBell = () => {
                     (e.currentTarget.style.background = "#faf8ff")
                   }
                   onMouseLeave={(e) =>
-                  (e.currentTarget.style.background = n.read
-                    ? "#fff"
-                    : "rgba(167,139,250,0.05)")
+                    (e.currentTarget.style.background = n.read
+                      ? "#fff"
+                      : "rgba(167,139,250,0.05)")
                   }>
                   {/* Icon */}
                   <div

@@ -1,7 +1,8 @@
 import axios from "axios";
 
 const API = axios.create({
-  baseURL: "https://snapvault2.onrender.com/api",
+  baseURL:
+    import.meta.env.VITE_API_URL || "https://snapvault-7j0k.onrender.com/api",
 });
 
 API.interceptors.request.use((req) => {
